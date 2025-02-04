@@ -1,4 +1,5 @@
-import format from 'date-fns/format';
+// import format from 'date-fns/format';
+import { format } from 'date-fns';
 import fs from 'fs';
 
 import { getAllFilesFrontmatter } from '@/lib/mdx.server';
