@@ -48,7 +48,13 @@ export async function getFileBySlug(type: ContentType, slug: string) {
         rehypeSlug,
         () =>
           rehypePrettyCode({
-            theme: 'css-variables',
+            // theme: 'css-variables',
+            theme: {
+              dark: 'solarized-dark',
+              light: 'solarized-light',
+            },
+            keepBackground: false,
+            defaultLang: 'plaintext',
           }),
         [
           rehypeAutolinkHeadings,
