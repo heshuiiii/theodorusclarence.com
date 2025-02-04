@@ -2,9 +2,9 @@ import { buildUrl } from 'cloudinary-build-url';
 import clsx from 'clsx';
 import Image from 'next/image';
 import * as React from 'react';
-import Lightbox from 'react-image-lightbox';
+import Lightbox from 'react-18-image-lightbox';
 
-import 'react-image-lightbox/style.css';
+import 'react-18-image-lightbox/style.css';
 
 type CloudinaryImgType = {
   publicId: string;
@@ -68,6 +68,14 @@ export default function CloudinaryImg({
   const RESIZE_MAX_WIDTH = 1000;
   const resizedToMaxWidth = mdx && +width >= RESIZE_MAX_WIDTH;
 
+  const imageWidth = resizedToMaxWidth 
+    ? Math.min(Number(width), RESIZE_MAX_WIDTH) 
+    : Number(width);
+  
+  const imageHeight = resizedToMaxWidth 
+    ? (RESIZE_MAX_WIDTH * Number(height)) / Number(width) 
+    : Number(height);
+
   return (
     <figure
       className={clsx(className, {
@@ -106,12 +114,8 @@ export default function CloudinaryImg({
         `}</style>
         <div className='absolute left-0 top-0'>
           <Image
-            width={
-              resizedToMaxWidth ? Math.min(+width, RESIZE_MAX_WIDTH) : width
-            }
-            height={
-              resizedToMaxWidth ? (RESIZE_MAX_WIDTH * +height) / +width : height
-            }
+            width={imageWidth}
+            height={imageHeight}
             unoptimized
             src={url}
             alt={alt}
@@ -120,7 +124,10 @@ export default function CloudinaryImg({
         </div>
       </div>
       {isOpen && (
-        <Lightbox mainSrc={url} onCloseRequest={() => setIsOpen(false)} />
+        <Lightbox 
+          mainSrc={url}
+          onCloseRequest={() => setIsOpen(false)}
+        />
       )}
     </figure>
   );
